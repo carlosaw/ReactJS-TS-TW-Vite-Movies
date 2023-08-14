@@ -22,7 +22,7 @@ const App = () => {
   */
 
   const loadMovies = async () => {
-    let response = await fetch('https://www.omdbapi.com/?i=tt3896198&apikey=5a28fc97');
+    let response = await fetch('https://api.b7web.com.br/cinema/');
     let json = await response.json();
     setMovies(json);
   }
