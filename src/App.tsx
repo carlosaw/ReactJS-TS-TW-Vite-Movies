@@ -28,21 +28,15 @@ const App = () => {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto max-w-screen-xl">
 
-      {/* <button 
-        className="block bg-blue-400"
-        onClick={loadMovies}
-      >Carregar Filmes
-      </button> */}
+      <p className="bg-blue-400 flex items-center justify-center text-3xl p-4 mt-4 mb-4 font-bold">Total de filmes: {movies.length}</p>
 
-      Total de filmes: {movies.length}
-
-      <div className="grid grid-cols-6 gap-3">
+      <div className="grid md:grid-cols-4 gap-3 sm:grid-cols-2">
         {movies.map((item, index) => (
-          <div key={index}>
-            <img src={item.avatar} className="w-32 block" />
-            {item.titulo}
+          <div key={index} className="flex flex-col justify-center items-center border border-blue-500 p-4 hover:border-blue-300 hover:bg-gray-700 cursor-pointer">
+            <img src={item.avatar} className="lg:w-full sm:w-38 block md:mb-4 sm:mb-0" />
+            <p className="text-xl">{item.titulo}</p>
           </div>
         ))}
       </div>
