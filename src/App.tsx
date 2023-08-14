@@ -1,42 +1,47 @@
-import { useState } from "react";
-import { Search } from './types/Search';
-
 const App = () => {
-  const [searchs, setSearchs] = useState<Search[]>([]);
+  // const [movies, setMovies] = useState<Movie[]>([]);
 
   // useEffect(() => {
   //   loadMovies();
-  // }, [movies]);
+  // }, []);
 
-  const loadSearchs = () => {
-    //const apyKey = "5a28fc97";
-    //fetch(`http://www.omdbapi.com/?s=batman&apikey=${apyKey}`)
-    //fetch(`http://www.omdbapi.com/?i=tt0372784&apikey=${apiKey}`)
-    fetch('https://www.omdbapi.com/?i=tt0372784&apikey=5a28fc97')
-    //fetch(`http://www.omdbapi.com/?apikey=${apiKey}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        //console.log(json);
-        setSearchs(json);
-      });
-  }
+  // const loadMovies = () => {
+  //   fetch('https://api.b7web.com.br/cinema/')
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((json) => {
+  //       setMovies(json);
+  //     });
+  // }
   
   return (
     <div className="container mx-auto">
+      <h1 className="bg-blue-400 text-center pb-2 font-semibold rounded-md">Filmes</h1>
+      <form className="mt-6 p-3 border border-cyan-400 rounded-md flex">
+        <input 
+          id="pesquisa" 
+          placeholder="Digite o nome do filme"
+          className="p-2 outline-none flex-1 rounded-md" />
+        <button className="border border-cyan-400 ml-4">Pesquisar</button>
+      </form>
 
-      <button className="block bg-blue-400" onClick={loadSearchs}>Carregar Filmes</button>
-
-      Total de filmes: {searchs.length}
-
-      <div className="grid grid-cols-6 gap-3">
-        {searchs.map((item, index) => (
-          <div key={index}>
-            <img src={item.Poster} className="w-32 block" />
-            {item.Title}
+      <div className="lista mt-4 bg-green-500">
+        <div className="flex gap-4 justify-center">
+          <div className="flex flex-col items-center w-60 text-center bg-red-600 p-4">
+            <img src="https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" alt="" width={200} />
+            <h2 className="text-xl text-center">Batman Begins</h2>
           </div>
-        ))}
+          <div className="flex flex-col items-center w-60 text-center bg-red-600 p-4">
+            <img src="https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" alt="" width={200} />  
+            <h2 className="text-xl">Batman v Superman: Dawn of Justice</h2>
+          </div>
+          <div className="flex flex-col items-center w-60 text-center bg-red-600 p-4">
+            <img src="https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" alt="" width={200} />  
+            <h2 className="text-xl">Batman v Superman: Dawn of Justice</h2>
+          </div>
+        </div> 
+
       </div>
     </div>
   ); 
