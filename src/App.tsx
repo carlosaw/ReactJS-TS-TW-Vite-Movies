@@ -30,13 +30,16 @@ const App = () => {
   return (
     <div className="container mx-auto max-w-screen-xl">
 
-      <p className="bg-blue-400 flex items-center justify-center text-3xl p-4 mt-4 mb-4 font-bold">Total de filmes: {movies.length}</p>
+      <p className="bg-blue-400 flex items-center justify-center text-3xl mt-4 mb-4 p-4 font-bold">Total de filmes: {movies.length}</p>
 
-      <div className="grid md:grid-cols-4 gap-3 sm:grid-cols-2">
+      <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-3 sm:grid-cols-1">
         {movies.map((item, index) => (
-          <div key={index} className="flex flex-col justify-center items-center border border-blue-500 p-4 hover:border-blue-300 hover:bg-gray-700 cursor-pointer">
-            <img src={item.avatar} className="lg:w-full sm:w-38 block md:mb-4 sm:mb-0" />
-            <p className="text-xl">{item.titulo}</p>
+          <div key={index} className="flex flex-col justify-center items-center border border-blue-500 pr-4 pl-4 pb-0 pt-4 hover:border-blue-300 hover:bg-gray-700 cursor-pointer">
+            <img src={item.avatar} className="md:w-42 sm:w-34 block" />
+            <div className="w-30 h-20 flex justify-center items-center mt-0 ">
+              <p className="text-xl text-center">{item.titulo}</p>
+            </div>
+            
           </div>
         ))}
       </div>
