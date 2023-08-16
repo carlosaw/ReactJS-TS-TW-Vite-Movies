@@ -1,42 +1,83 @@
-import { useEffect, useState } from "react";
-import { Movie } from './types/Movie';
+import { ChangeEvent, useEffect, useState } from "react";
+import { Post } from './types/Post';
 import Loading from './assets/progress-bar.gif';
 
 const App = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const [addTitle, setAddTitle] = useState('');
+  const [addBody, setAddBody ] = useState('');
 
   // Carrega assim que abre a página
   useEffect(() => {
-    loadMovies();
+    loadPosts();
   }, []);
 
-  const loadMovies = async () => {
-    try{
+  // Pega todos os posts
+  const loadPosts = async () => {    
+    try{      
       setLoading(true);
-      let response = await fetch('https://api.b7web.com.br/cinema/');
+      let response = await fetch('https://jsonplaceholder.typicode.com/posts');
       let json = await response.json();
-      setLoading(false);
-      setMovies(json);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2500);      
+      setPosts(json);      
     } catch(e) {
       setLoading(false);
-      setMovies([]);
+      setPosts([]);
       console.error(e);
-    }    
+    }        
+  }
+
+  // Adicionar Post
+  const handleAddTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAddTitle(e.target.value);
+  }
+  const handleAddBodyChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setAddBody(e.target.value);
+  }
+  const handleAddClick = () => {
+    //alert(addTitle+' - '+addBody);
+    setAddTitle('');
+    setAddBody('');
   }
 
   return (
     <div className="container mx-auto">
-      {!loading && movies.length > 0 &&
+      
+      {!loading && posts.length > 0 &&
       <>
-        <div className="bg-blue-400 flex items-center justify-center text-3xl mt-4 mb-4 p-4 font-bold">Total de filmes: {movies.length}</div>
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-3">
-          {movies.map((item, index) => (
-            <div key={index} className="flex flex-col justify-center items-center border border-blue-500 pr-4 pl-4 pb-0 pt-4 hover:border-blue-300 hover:bg-gray-700 cursor-pointer">
-              <img src={item.avatar} className="lg:w-full md:w-4/5 sm:w-3/6" />
-              <div className="w-30 h-20 flex justify-center items-center mt-0 ">
-                <p className="text-xl text-center">{item.titulo}</p>
-              </div>          
+        <fieldset className="border-2 mt-4 mb-4">
+          <legend>Adicionar novo Post</legend>
+          <input 
+            className="block border" 
+            type="text" 
+            placeholder="Digite o Título"
+            value={addTitle}
+            onChange={handleAddTitleChange}
+          />
+          <textarea 
+            className="block border" 
+            value={addBody}
+            onChange={handleAddBodyChange}
+          ></textarea>
+          <button 
+            className="block border"
+            onClick={handleAddClick}
+          >Adicionar</button>
+        </fieldset>
+
+        <div className="bg-blue-400 flex items-center justify-center text-2xl mt-2 p-2 font-bold">Total de Posts: {posts.length}
+        </div>
+
+        <div className="">
+          {posts.map((item, index) => (
+            <div key={index} className="p-4 border border-t-0 border-r-0 border-l-0">
+              <h4 className="text-blue-300 font-semibold text-xl">Título: {item.title}</h4>
+              <small># {item.id} - Usuário: {item.userId}</small>
+              <p>{item.body}</p>
             </div>
           ))}
         </div>
@@ -46,13 +87,12 @@ const App = () => {
       {loading &&
         <div className="flex justify-center items-center mt-40">
           <img src={Loading} alt="" width={200} />
-          {/* <div>Carregando...</div> */}
         </div>
       }
 
-      {!loading && movies.length === 0 &&
+      {!loading && posts.length === 0 &&
         <div className="flex items-center justify-center mt-40 p-4 bg-orange-600">
-          <div className="text-xl">"Erro"! Tente novamente mais tarde!</div>
+          <div className="text-xl">Não há posts para exibir!</div>
         </div>
       }
 
