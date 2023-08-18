@@ -19,6 +19,8 @@ export const PostForm = ({ onAdd }: Props) => {
   const handleAddClick = async () => {
     if(addTitle && addBody) {
       onAdd(addTitle, addBody);
+      setAddTitle('');
+      setAddBody('');
     } else {
       alert('Preencha os campos');
     }
