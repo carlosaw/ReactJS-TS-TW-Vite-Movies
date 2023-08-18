@@ -1,68 +1,43 @@
-import { useEffect, useState } from "react";
-import { Post } from './types/Post';
-import { PostForm } from "./components/PostForm";
-import { PostItem } from './components/PostItem';
-import { api } from './api';
+import { useReducer } from 'react';
 
-import Loading from './assets/progress-bar.gif';
+type reducerState = {
+  count: number;
+}
+type reducerAction = {
+  type: string;
+}
 
+const initialState = { count: 0 };
+const reducer = (state: reducerState, action: reducerAction) => {
+  switch(action.type) {
+    case 'ADD':
+      return {...state, count: state.count + 1};
+    break;
+    case 'DEL':
+      if(state.count > 0) {
+        return {...state, count: state.count - 1};
+      }      
+    break;
+    case 'RESET':
+      return initialState;
+  }
+  return state;
+}
 
 const App = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  // Carrega assim que abre a página
-  useEffect(() => {
-    loadPosts();
-  }, []);
-
-  // Pega todos os posts
-  const loadPosts = async () => {           
-    setLoading(true);
-    let json = await api.getAllPosts();
-    setTimeout(() => {
-      setLoading(false);
-      setPosts(json);
-    }, 2000);    
-  }
-
-  const handleAddPost = async (title: string, body: string) => {
-    let json = await api.addNewPost(title, body, 1);
-    if(json.id) {
-      alert("Post adicionado com sucesso!");
-    } else {
-      alert('Ocorreu algum erro!');
-    }   
-  }
-
+  const [state, dispatch] =useReducer(reducer, initialState);
+  
   return (
     <div className="container mx-auto">
 
-      {!loading && posts.length > 0 &&
-      <>
-        <PostForm onAdd={handleAddPost}/>
-        <div className="bg-blue-400 flex items-center justify-center text-2xl mt-2 p-2 font-bold">Total de Posts: {posts.length}
-        </div>
+      Contagem: {state.count}
+      <hr/>
+      <button className='p-3 border' onClick={()=>dispatch({type: 'ADD'})}>Adicionar</button>
 
-        <div className="">
-          {posts.map((item) => (
-            <PostItem data={item} />
-          ))}
-        </div>
-      </>        
-      }
+      <button className='p-3' onClick={()=>dispatch({type: 'DEL'})}>Remover</button>
       
-      {loading &&
-        <div className="flex justify-center items-center mt-40">
-          <img src={Loading} alt="" width={200} />
-        </div>
-      }
-
-      {!loading && posts.length === 0 &&
-        <div className="flex items-center justify-center mt-40 p-4 bg-orange-600">
-          <div className="text-xl">Não há posts para exibir!</div>
-        </div>
-      }
+      <button className='p-3' onClick={()=>dispatch({type: 'RESET'})}>Resetar</button>
 
     </div>
   ); 
