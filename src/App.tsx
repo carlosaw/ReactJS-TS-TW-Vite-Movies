@@ -12,16 +12,22 @@ const App = () => {
   }, []);
 
   const loadMovies = async () => {
-    setLoading(true);
-    let response = await fetch('https://api.b7web.com.br/cinema/');
-    let json = await response.json();
-    setLoading(false);
-    setMovies(json);
+    try{
+      setLoading(true);
+      let response = await fetch('https://api.b7web.com.br/cinema');
+      let json = await response.json();
+      setLoading(false);
+      setMovies(json);
+    } catch(e) {
+      setLoading(false);alert("Erro! Tente mais tarde");
+      console.log(e);
+    }
+    
   }
 
   return (
     <div className="container mx-auto max-w-screen-xl">
-      {!loading &&
+      {!loading && movies.length > 0 &&
       <>
         <div className="bg-blue-400 flex items-center justify-center text-3xl mt-4 mb-4 p-4 font-bold">Total de filmes: {movies.length}</div>
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-3 sm:grid-cols-1">
@@ -34,8 +40,7 @@ const App = () => {
             </div>
           ))}
         </div>
-      </>
-        
+      </>        
       }
       
       {loading &&
@@ -43,6 +48,10 @@ const App = () => {
           <img src={Loading} alt="" width={200} />
           {/* <div>Carregando...</div> */}
         </div>
+      }
+
+      {!loading && movies.length === 0 &&
+        <div>Tente novamente mais tarde!</div>
       }
     </div>
   ); 
