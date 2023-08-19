@@ -29,7 +29,7 @@ const reducer = (state: Person[], action: ActionType) => {
         return newState;
       }      
     break;
-    
+
     case 'DEL':
       if(action.payload?.id) {
         state = state.filter(item => item.id !== action.payload?.id);
