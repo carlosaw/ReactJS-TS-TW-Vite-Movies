@@ -21,15 +21,29 @@ const App = () => {
     setNameInput(e.target.value);
   }
 
+  const deletePerson = (id: string) => {
+    dispatch({ type: 'DEL', payload: {id} });
+  }
+
+  const handleOrderButton = () => {
+    dispatch({
+      type: 'ORDER'
+    });
+  }
+
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto text-center">
       <input type='text' value={nameInput} onChange={handleInputChange} />
       <button onClick={handleAddButton}>Adicionar</button>
       <hr/>
+      <button onClick={handleOrderButton}>Ordenar</button><br/>
       Lista de Pessoas:
       <ul>
         {list.map((item, index) => (
-          <li key={index}>{item.name}</li>
+          <li key={index}>
+            {item.name}
+            <button onClick={() => deletePerson(item.id)}>[ Deletar ]</button>
+          </li>
         ))}
       </ul>
     </div>
