@@ -8,7 +8,7 @@ Projeto realizado no curso de ReactJS
 - ` npm run dev`
 
 ### Land Page
-[vercel]('https://react-js-ts-tw-vite-movies.vercel.app/')
+[vercel](https://react-js-ts-tw-vite-movies.vercel.app/)
 
 Este modelo fornece uma configuração mínima para fazer o React funcionar no Vite com HMR e algumas regras ESLint.
 
